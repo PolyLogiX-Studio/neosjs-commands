@@ -3,5 +3,5 @@ toc:
     children:
       - neosjs-commands
     description: |
-      This is a placeholder
+      Plugin Library for [Neos.js](https://www.npmjs.com/package/@bombitmanbomb/neosjs)
   - CommandManager

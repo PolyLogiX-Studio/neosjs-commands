@@ -1,0 +1,37 @@
+{
+	"name": "neosjs-commands",
+	"version": "1.0.0",
+	"description": "Command Manager for NeosVR",
+	"main": "Commands.js",
+	"scripts": {
+		"lint": "prettier --use-tabs --write . && eslint -c .eslintrc.json --fix .",
+		"document": "documentation build CommandManager.js -f html -o docs --config .documentation.yml --sort-order alpha",
+		"prepare": "npm run document && npm run lint"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/PolyLogiX-Studio/neosjs-commands.git"
+	},
+	"author": "Ethan Snow",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/PolyLogiX-Studio/neosjs-commands/issues"
+	},
+	"peerDependencies": {
+		"@bombitmanbomb/neosjs": "^1.8.0"
+	},
+	"devDependencies": {
+		"documentation": "^13.1.0",
+		"eslint": "^7.12.1",
+		"prettier": "^2.1.2"
+	},
+	"peerDependenciesMeta": {
+		"@bombitmanbomb/neosjs": {
+			"optional": false
+		}
+	},
+	"os": [
+		"!darwin"
+	],
+	"homepage": "https://github.com/PolyLogiX-Studio/neosjs-commands#readme"
+}

@@ -1,0 +1,7 @@
+toc:
+  - name: Neos.js Plugin - Commands
+    children:
+      - neosjs-commands
+    description: |
+      This is a placeholder
+  - CommandManager

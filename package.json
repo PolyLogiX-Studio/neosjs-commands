@@ -1,12 +1,12 @@
 {
 	"name": "neosjs-commands",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Command Manager for NeosVR",
 	"main": "CommandManager.js",
 	"scripts": {
 		"lint": "prettier --use-tabs --write . && eslint -c .eslintrc.json --fix .",
 		"document": "documentation build CommandManager.js -f html -o docs --config .documentation.yml --sort-order alpha",
-		"prepare": "npm run document && npm run lint"
+		"ready": "npm run document && npm run lint"
 	},
 	"repository": {
 		"type": "git",
@@ -18,7 +18,7 @@
 		"url": "https://github.com/PolyLogiX-Studio/neosjs-commands/issues"
 	},
 	"peerDependencies": {
-		"@bombitmanbomb/neosjs": "^1.8.0"
+		"@bombitmanbomb/neosjs": "^1.9.0"
 	},
 	"devDependencies": {
 		"documentation": "^13.1.0",

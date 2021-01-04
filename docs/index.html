@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>neosjs-commands 1.0.1 | Documentation</title>
+		<title>neosjs-commands 1.0.2 | Documentation</title>
 		<meta name="description" content="Command Manager for NeosVR" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<link href="assets/bass.css" rel="stylesheet" />
@@ -15,7 +15,7 @@
 			<div id="split-left" class="overflow-auto fs0 height-viewport-100">
 				<div class="py1 px2">
 					<h3 class="mb0 no-anchor">neosjs-commands</h3>
-					<div class="mb1"><code>1.0.1</code></div>
+					<div class="mb1"><code>1.0.2</code></div>
 					<input
 						placeholder="Filter"
 						id="filter-input"
@@ -72,31 +72,6 @@
 							</li>
 
 							<li>
-								<a href="#commandhandler" class="toggle-sibling">
-									CommandHandler
-									<span class="icon">▸</span>
-								</a>
-
-								<div class="toggle-target display-none">
-									<ul class="list-reset py1-ul pl1">
-										<li class="h5"><span>Static members</span></li>
-
-										<li>
-											<a href="#commandhandleradd" class="regular pre-open">
-												.Add
-											</a>
-										</li>
-
-										<li>
-											<a href="#commandhandlerrun" class="regular pre-open">
-												.Run
-											</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-
-							<li>
 								<a href="#commandextended" class="toggle-sibling">
 									CommandExtended
 									<span class="icon">▸</span>
@@ -124,6 +99,31 @@
 												class="regular pre-open"
 											>
 												#SetHelp
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+
+							<li>
+								<a href="#commandhandler" class="toggle-sibling">
+									CommandHandler
+									<span class="icon">▸</span>
+								</a>
+
+								<div class="toggle-target display-none">
+									<ul class="list-reset py1-ul pl1">
+										<li class="h5"><span>Static members</span></li>
+
+										<li>
+											<a href="#commandhandleradd" class="regular pre-open">
+												.Add
+											</a>
+										</li>
+
+										<li>
+											<a href="#commandhandlerrun" class="regular pre-open">
+												.Run
 											</a>
 										</li>
 									</ul>
@@ -179,7 +179,12 @@
 						</h3>
 					</div>
 
-					<p>This is a placeholder</p>
+					<p>
+						Plugin Library for
+						<a href="https://www.npmjs.com/package/@bombitmanbomb/neosjs"
+							>Neos.js</a
+						>
+					</p>
 
 					<div class="pre p1 fill-light mt0">Neos.js Plugin - Commands</div>
 
@@ -224,6 +229,28 @@
 					</div>
 
 					<div class="pre p1 fill-light mt0">new CommandManager()</div>
+
+					<div class="py1 quiet mt1 prose-big">Example</div>
+
+					<pre
+						class="p1 overflow-auto round fill-light"
+					><span class="hljs-keyword">const</span> CommandManager = <span class="hljs-built_in">require</span>(<span class="hljs-string">"neosjs-commands"</span>);
+<span class="hljs-keyword">const</span> Neos = <span class="hljs-keyword">new</span> (<span class="hljs-built_in">require</span>(<span class="hljs-string">"@bombitmanbomb/neosjs"</span>))
+Command = CommandManager.Create(Neos)
+Command.Add(<span class="hljs-string">"Ping"</span>, (Handler)=&gt;{Handler.Reply(<span class="hljs-string">"Pong"</span>)})
+Command.SetHelp(<span class="hljs-string">"Ping"</span>, {<span class="hljs-attr">index</span>:<span class="hljs-string">"Ping Pong!"</span>, <span class="hljs-attr">usage</span>:Command.Options.Prefix+<span class="hljs-string">"Ping"</span>})
+Command.Add(<span class="hljs-string">"Relay"</span>, (Handler, Sender, Args)=&gt;{
+ <span class="hljs-keyword">if</span> (Args.length&lt;<span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> Handler.Usage();
+ <span class="hljs-keyword">if</span> (!Args[<span class="hljs-number">0</span>].startsWith(<span class="hljs-string">"U-"</span>)) <span class="hljs-keyword">return</span> Handler.Reply(<span class="hljs-string">"First Argument must be a UserID."</span>);
+ <span class="hljs-keyword">if</span> (!Neos.IsFriend(Args[<span class="hljs-number">0</span>])) <span class="hljs-keyword">return</span> Handler.Reply(<span class="hljs-string">"User is not a Friend of the bot."</span>);
+ Neos.SendTextMessage(Args.shift(), Args.join(<span class="hljs-string">" "</span>)); <span class="hljs-comment">// Remove first argument (UserID) and join the rest with spaces.</span>
+ Handler.Reply(<span class="hljs-string">"Message Sent!"</span>)
+},
+{
+ <span class="hljs-attr">index</span>:<span class="hljs-string">"Send a message to another user via the bot."</span>,
+ <span class="hljs-attr">usage</span>:Command.Options.Prefix+<span class="hljs-string">"Relay &lt;User-ID&gt; &lt;Message&gt;"</span>
+}, [<span class="hljs-string">"U-BotOwner"</span>]);
+Neos.on(<span class="hljs-string">"messageReceived"</span>, Command.Run);</pre>
 
 					<div class="py1 quiet mt1 prose-big">Static Members</div>
 					<div class="clearfix">
@@ -272,176 +299,6 @@
 									<div class="py1 quiet mt1 prose-big">Returns</div>
 									<code><a href="#commandextended">CommandExtended</a></code
 									>:
-								</section>
-							</div>
-						</div>
-					</div>
-				</section>
-
-				<section class="p2 mb2 clearfix bg-white minishadow">
-					<div class="clearfix">
-						<h3 class="fl m0" id="commandhandler">CommandHandler</h3>
-					</div>
-
-					<p>CommandHandler Plugin.</p>
-
-					<div class="pre p1 fill-light mt0">
-						new CommandHandler(NeosJS: Class, Invalid:
-						<a
-							href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
-							>String</a
-						>)
-					</div>
-
-					<div class="py1 quiet mt1 prose-big">Parameters</div>
-					<div class="prose">
-						<div class="space-bottom0">
-							<div>
-								<span class="code bold">NeosJS</span>
-								<code class="quiet">(Class)</code>
-								Neos.js "this" instance
-							</div>
-						</div>
-
-						<div class="space-bottom0">
-							<div>
-								<span class="code bold">Invalid</span>
-								<code class="quiet"
-									>(<a
-										href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
-										>String</a
-									>
-									= <code>&quot;Invalid Command&quot;</code>)</code
-								>
-							</div>
-						</div>
-					</div>
-
-					<div class="py1 quiet mt1 prose-big">Example</div>
-
-					<pre
-						class="p1 overflow-auto round fill-light"
-					><span class="hljs-keyword">const</span> NEOS = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@bombitmanbomb/neosjs"</span>)
-<span class="hljs-keyword">const</span> Neos = <span class="hljs-keyword">new</span> NEOS()
-<span class="hljs-keyword">const</span> CommandHandler = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@bombitmanbomb/neosjs/Plugins/CommandHandler"</span>)
-<span class="hljs-keyword">const</span> Command = <span class="hljs-keyword">new</span> Commandhandler(Neos)
-Command.Add(<span class="hljs-string">"Ping"</span>, (Handler)=&gt;{Handler.Reply(<span class="hljs-string">"Pong!"</span>)});
-Neos.on(<span class="hljs-string">"messageReceived"</span>, (Message)=&gt;{
-	Command.Run(Message)
-})</pre>
-
-					<div class="py1 quiet mt1 prose-big">Static Members</div>
-					<div class="clearfix">
-						<div class="border-bottom" id="commandhandleradd">
-							<div class="clearfix small pointer toggle-sibling">
-								<div class="py1 contain">
-									<a class="icon pin-right py1 dark-link caret-right">▸</a>
-									<span class="code strong strong truncate"
-										>Add(command, cb, whitelist?)</span
-									>
-								</div>
-							</div>
-							<div class="clearfix display-none toggle-target">
-								<section class="p2 mb2 clearfix bg-white minishadow">
-									<p>Add a Command</p>
-
-									<div class="pre p1 fill-light mt0">
-										Add(command:
-										<a
-											href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
-											>String</a
-										>, cb: <a href="#handlercallback">HandlerCallback</a>,
-										whitelist:
-										<a
-											href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array"
-											>Array</a
-										>&#x3C;<a
-											href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
-											>String</a
-										>>?)
-									</div>
-
-									<div class="py1 quiet mt1 prose-big">Parameters</div>
-									<div class="prose">
-										<div class="space-bottom0">
-											<div>
-												<span class="code bold">command</span>
-												<code class="quiet"
-													>(<a
-														href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
-														>String</a
-													>)</code
-												>
-											</div>
-										</div>
-
-										<div class="space-bottom0">
-											<div>
-												<span class="code bold">cb</span>
-												<code class="quiet"
-													>(<a href="#handlercallback">HandlerCallback</a
-													>)</code
-												>
-											</div>
-										</div>
-
-										<div class="space-bottom0">
-											<div>
-												<span class="code bold">whitelist</span>
-												<code class="quiet"
-													>(<a
-														href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array"
-														>Array</a
-													>&#x3C;<a
-														href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
-														>String</a
-													>>?)</code
-												>
-											</div>
-										</div>
-									</div>
-								</section>
-							</div>
-						</div>
-
-						<div class="border-bottom" id="commandhandlerrun">
-							<div class="clearfix small pointer toggle-sibling">
-								<div class="py1 contain">
-									<a class="icon pin-right py1 dark-link caret-right">▸</a>
-									<span class="code strong strong truncate"
-										>Run(Message, Extra)</span
-									>
-								</div>
-							</div>
-							<div class="clearfix display-none toggle-target">
-								<section class="p2 mb2 clearfix bg-white minishadow">
-									<p>Run a Message for Commands</p>
-
-									<div class="pre p1 fill-light mt0">
-										Run(Message: {Id, OwnerId, RecipientId, SenderId,
-										MessageType, Content, SendTime, LastUpdateTime, ReadTime},
-										Extra: any)
-									</div>
-
-									<div class="py1 quiet mt1 prose-big">Parameters</div>
-									<div class="prose">
-										<div class="space-bottom0">
-											<div>
-												<span class="code bold">Message</span>
-												<code class="quiet"
-													>({Id, OwnerId, RecipientId, SenderId, MessageType,
-													Content, SendTime, LastUpdateTime, ReadTime})</code
-												>
-											</div>
-										</div>
-
-										<div class="space-bottom0">
-											<div>
-												<span class="code bold">Extra</span>
-												<code class="quiet">(any)</code>
-											</div>
-										</div>
-									</div>
 								</section>
 							</div>
 						</div>
@@ -669,6 +526,176 @@ Neos.on(<span class="hljs-string">"messageReceived"</span>, Command.Run);</pre>
 										<div class="space-bottom0">
 											<div>
 												<span class="code bold">Help</span>
+												<code class="quiet">(any)</code>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="p2 mb2 clearfix bg-white minishadow">
+					<div class="clearfix">
+						<h3 class="fl m0" id="commandhandler">CommandHandler</h3>
+					</div>
+
+					<p>CommandHandler Plugin.</p>
+
+					<div class="pre p1 fill-light mt0">
+						new CommandHandler(NeosJS: Class, Invalid:
+						<a
+							href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
+							>String</a
+						>)
+					</div>
+
+					<div class="py1 quiet mt1 prose-big">Parameters</div>
+					<div class="prose">
+						<div class="space-bottom0">
+							<div>
+								<span class="code bold">NeosJS</span>
+								<code class="quiet">(Class)</code>
+								Neos.js "this" instance
+							</div>
+						</div>
+
+						<div class="space-bottom0">
+							<div>
+								<span class="code bold">Invalid</span>
+								<code class="quiet"
+									>(<a
+										href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
+										>String</a
+									>
+									= <code>&quot;Invalid Command&quot;</code>)</code
+								>
+							</div>
+						</div>
+					</div>
+
+					<div class="py1 quiet mt1 prose-big">Example</div>
+
+					<pre
+						class="p1 overflow-auto round fill-light"
+					><span class="hljs-keyword">const</span> NEOS = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@bombitmanbomb/neosjs"</span>)
+<span class="hljs-keyword">const</span> Neos = <span class="hljs-keyword">new</span> NEOS()
+<span class="hljs-keyword">const</span> CommandHandler = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@bombitmanbomb/neosjs/Plugins/CommandHandler"</span>)
+<span class="hljs-keyword">const</span> Command = <span class="hljs-keyword">new</span> Commandhandler(Neos)
+Command.Add(<span class="hljs-string">"Ping"</span>, (Handler)=&gt;{Handler.Reply(<span class="hljs-string">"Pong!"</span>)});
+Neos.on(<span class="hljs-string">"messageReceived"</span>, (Message)=&gt;{
+	Command.Run(Message)
+})</pre>
+
+					<div class="py1 quiet mt1 prose-big">Static Members</div>
+					<div class="clearfix">
+						<div class="border-bottom" id="commandhandleradd">
+							<div class="clearfix small pointer toggle-sibling">
+								<div class="py1 contain">
+									<a class="icon pin-right py1 dark-link caret-right">▸</a>
+									<span class="code strong strong truncate"
+										>Add(command, cb, whitelist?)</span
+									>
+								</div>
+							</div>
+							<div class="clearfix display-none toggle-target">
+								<section class="p2 mb2 clearfix bg-white minishadow">
+									<p>Add a Command</p>
+
+									<div class="pre p1 fill-light mt0">
+										Add(command:
+										<a
+											href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
+											>String</a
+										>, cb: <a href="#handlercallback">HandlerCallback</a>,
+										whitelist:
+										<a
+											href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array"
+											>Array</a
+										>&#x3C;<a
+											href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
+											>String</a
+										>>?)
+									</div>
+
+									<div class="py1 quiet mt1 prose-big">Parameters</div>
+									<div class="prose">
+										<div class="space-bottom0">
+											<div>
+												<span class="code bold">command</span>
+												<code class="quiet"
+													>(<a
+														href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
+														>String</a
+													>)</code
+												>
+											</div>
+										</div>
+
+										<div class="space-bottom0">
+											<div>
+												<span class="code bold">cb</span>
+												<code class="quiet"
+													>(<a href="#handlercallback">HandlerCallback</a
+													>)</code
+												>
+											</div>
+										</div>
+
+										<div class="space-bottom0">
+											<div>
+												<span class="code bold">whitelist</span>
+												<code class="quiet"
+													>(<a
+														href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array"
+														>Array</a
+													>&#x3C;<a
+														href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String"
+														>String</a
+													>>?)</code
+												>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+
+						<div class="border-bottom" id="commandhandlerrun">
+							<div class="clearfix small pointer toggle-sibling">
+								<div class="py1 contain">
+									<a class="icon pin-right py1 dark-link caret-right">▸</a>
+									<span class="code strong strong truncate"
+										>Run(Message, Extra)</span
+									>
+								</div>
+							</div>
+							<div class="clearfix display-none toggle-target">
+								<section class="p2 mb2 clearfix bg-white minishadow">
+									<p>Run a Message for Commands</p>
+
+									<div class="pre p1 fill-light mt0">
+										Run(Message: {Id, OwnerId, RecipientId, SenderId,
+										MessageType, Content, SendTime, LastUpdateTime, ReadTime},
+										Extra: any)
+									</div>
+
+									<div class="py1 quiet mt1 prose-big">Parameters</div>
+									<div class="prose">
+										<div class="space-bottom0">
+											<div>
+												<span class="code bold">Message</span>
+												<code class="quiet"
+													>({Id, OwnerId, RecipientId, SenderId, MessageType,
+													Content, SendTime, LastUpdateTime, ReadTime})</code
+												>
+											</div>
+										</div>
+
+										<div class="space-bottom0">
+											<div>
+												<span class="code bold">Extra</span>
 												<code class="quiet">(any)</code>
 											</div>
 										</div>
